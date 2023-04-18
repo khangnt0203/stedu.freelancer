@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    background-color: #faf6f6;
+}
+
+@layer base {
+    html {
+      font-family: Overpass;
+    }
+  }
+
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    height: 100vh;
+  }
+
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 10px;
+  }
+  
+  .chat-message {
+    display: inline-block;
+    max-width: 80%;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .chat-message-sender {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .chat-message.right {
+    align-self: flex-end;
+    background-color: #a2e8a2;
+    box-shadow: 2px 2px 0px 0px #888888;
+  }
+  
+  .chat-message.left {
+    align-self: flex-start;
+    background-color: #d9d9d9;
+    box-shadow: 0px 1px 1px 1px #888888;
+  }

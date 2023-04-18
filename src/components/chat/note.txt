@@ -1,0 +1,68 @@
+  // const [runSDK, setRunSDK] = useState("false");
+
+  // useEffect(() => {
+  //   const initSDK = async () => {
+  //     const initializeObj = {
+  //       apiBaseUrl: API_BASE_URL,
+  //       licenseKey: LICENSE_KEY,
+  //       callbackListeners: { connectionListener, messageListener },
+  //     };
+  //     await SDK.initializeSDK(initializeObj);
+  //     setRunSDK("true");
+  //   }
+  //   initSDK();
+  // }, []);
+
+  // useEffect(() => {
+  //   const userLogin = async () => {
+  //     if (runSDK === "true") {
+  //       let decode = jwtDecode(getToken());
+  //       let login = await SDK.connect(decode.usernameMirrorFly, decode.passwordMirrorFly);
+  //       console.log(login);
+  //     }
+  //   }
+  //   userLogin();
+  // }, [runSDK])
+
+  // //SEND TEXT MESSAGE
+  // const textMessage = async () => {
+  //   let msg = "Message from itegration";
+  //   let decode = jwtDecode(getToken());
+  //   let toUserJid = SDK.getJid(decode.usernameMirrorFly);
+  //   await SDK.sendTextMessage(toUserJid.userJid, msg);
+  // }
+
+  // function connectionListener(response) {
+  //   if (response.status === "CONNECTED") {
+  //     console.log("Connection Established");
+  //   } else if (response.status === "DISCONNECTED") {
+  //     console.log("Disconnected");
+  //   }
+  // }
+
+  // function messageListener(response) {
+  //   console.log("Message Listener", response);
+  // }
+
+  // const LICENSE_KEY = "fVQ1BYeycb0sjc0X98hpscDJMfj8TV"
+  // const API_BASE_URL = "https://api-preprod-sandbox.mirrorfly.com/api/v1"
+
+  // var username = ""
+  // var password = ""
+
+  // const registerUser = async () => {
+  //   let register = await SDK.register(`919861656320`);
+  //   console.log("Register_Response", register)
+  //   username = register.data.username
+  //   password = register.data.password
+  // }
+
+  // const connectToMF = async () => {
+  //   let connect = await SDK.connect(username, password); // we will get UserName and Password from registerUser response
+  //   console.log("connected_response", connect)
+  // }
+
+
+{/* <button onClick={textMessage}> Send Message</button>
+<button onClick={registerUser}>registerUser </button>
+<button onClick={connectToMF}>connectToMF </button> */}
