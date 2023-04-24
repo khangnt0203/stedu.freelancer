@@ -46,10 +46,10 @@ function FindBar(props) {
                 {numeral(data1.price).format("0,0")} VNĐ
               </p>
               <div className="text-center font-medium">
-                <p className="py-2 border-b mx-8 my-8">
+                <p className="py-2  mx-8 ">
                   Gia sư: {data1.teacherName}
                 </p>
-                <p className="py-2 border-b  mx-8"> {data1.shortDescription}</p>
+                {/* <p className="py-2 border-b  mx-8"> {data1.shortDescription}</p> */}
               </div>
               <button
                 className="bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3"
@@ -73,10 +73,10 @@ function FindBar(props) {
                 {numeral(data2.price).format("0,0")} VNĐ
               </p>
               <div className="text-center font-medium">
-                <p className="py-2 border-b mx-8 my-8">
+                <p className="py-2  mx-8 ">
                   Gia sư: {data2.teacherName}
                 </p>
-                <p className="py-2 border-b mx-8">{data2.shortDescription}</p>
+                {/* <p className="py-2 border-b mx-8">{data2.shortDescription}</p> */}
               </div>
               <button
                 className="bg-black text-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3"
@@ -96,15 +96,15 @@ function FindBar(props) {
               <h2 className="text-2xl font-bold text-center py-8">
                 {data3.name}
               </h2>
-              <p className="text-center text-4xl font-bold">
+              <p className="text-center text-4xl font-bold text-[#085E7D]">
                 {numeral(data3.price).format("0,0")} VNĐ
               </p>
-              <div className="text-center font-medium">
+              {/* <div className="text-center font-medium">
                 <p className="py-2 border-b mx-8 my-8">
                   Gia sư: {data3.teacherName}
                 </p>
                 <p className="py-2 border-b mx-8">{data3.shortDescription}</p>
-              </div>
+              </div> */}
               <button
                 className="bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3"
                 onClick={() => handleClick(data3.id)}

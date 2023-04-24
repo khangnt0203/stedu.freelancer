@@ -70,7 +70,8 @@ function NewCourse(props) {
       // Swal.fire("Tạo lớp thành công!", "Chúc bạn thành công!", "success").then(
       //   window.location.assign("/tutor/my-course")
       // );
-      // window.location.assign("/tutor/my-course");
+      toast.success("Tạo lớp thành công!");
+      window.location.assign("/tutor/my-course");
     } catch (error) {
       toast.error("Vui lòng thử lại sau!");
       console.log("Error:", error);
@@ -81,17 +82,19 @@ function NewCourse(props) {
     setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
   return (
-    <div className="max-w-[1240px] px-4 py-4 mx-auto">
+    <div className="max-w-[1240px] px-4 py-4 mx-auto bg-white">
       <div className="  font-bold text-xl md:text-2xl">Đăng ký lớp học</div>
       <ToastContainer />
+      <div className="  italic text-gray-400 text-sm mt-4">Lưu ý: * là phần bắt buộc nhập</div>
       <div className="grid gap-2 mt-4">
         <TextField
+        required
           label="Tên lớp học"
           onChange={(e) => setName(e.target.value)}
         />
         <div>
-          <h1 className="font-semibold">Chọn ảnh bìa</h1>
-          <input type="file" name="file" onChange={handleImage} />
+          <h1 className="font-semibold">Chọn ảnh bìa *</h1>
+          <input type="file" name="file" onChange={handleImage} required/>
           {image ? <img src={imagePreview} /> : null}
         </div>
 
@@ -106,7 +109,7 @@ function NewCourse(props) {
           />
         </div>
         <div>
-          <h1 className="font-semibold">Chi tiết lớp học</h1>
+          <h1 className="font-semibold">Chi tiết lớp học *</h1>
           <ReactQuill
             className="mb-16 md:mb-12"
             theme="snow"
@@ -117,8 +120,9 @@ function NewCourse(props) {
         </div>
         <div>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Nhóm môn</InputLabel>
+            <InputLabel id="demo-simple-select-label">Nhóm môn *</InputLabel>
             <Select
+            required
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={subjectId}
@@ -143,6 +147,7 @@ function NewCourse(props) {
         <div className="flex items-center">
           <div className="mr-4">
             <TextField
+            required
               label="Thời gian học"
               type="number"
               onChange={(e) => setDuration(e.target.value)}
@@ -168,6 +173,7 @@ function NewCourse(props) {
         </div>
 
         <NumericFormat
+        required
           allowNegative={false}
           name="price"
           onValueChange={(e) => {

@@ -3,6 +3,7 @@ import {
   Breadcrumbs,
   Button,
   Chip,
+  CircularProgress,
   Rating,
   TextField,
   Typography,
@@ -27,6 +28,7 @@ function DetailCourse(props) {
   const [status, setStatus] = useState();
   const [point, setPoint] = React.useState(0);
   const [comment, setComment] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const getDetailCourse = async () => {
       const response = await CourseAPI.getCourseDetail(idCourse);
@@ -51,9 +53,15 @@ function DetailCourse(props) {
   const location = useLocation();
   useEffect(() => {
     const getCourseStatus = async () => {
-      const response = await CourseAPI.getCourseDetailById(idCourse);
-      setStatus(response.data[0].status);
-      setId(response.data[0].id);
+      setIsLoading(true);
+      try {
+        const response = await CourseAPI.getCourseDetailById(idCourse);
+        setStatus(response.data[0].status);
+        setId(response.data[0].id);
+      } catch (error) {
+        console.log("Error:", error);
+      }
+      setIsLoading(false);
     };
     getCourseStatus();
   }, []);
@@ -62,7 +70,6 @@ function DetailCourse(props) {
       if (status === "STARTED") {
         await CourseAPI.startCourse(id);
         window.location.reload();
-       
       } else {
         await CourseAPI.finishCourse(id);
         window.location.reload();
@@ -96,129 +103,150 @@ function DetailCourse(props) {
 
   return (
     <div className=" px-4 py-4  text-xs lg:text-sm  max-w-[1240px] mx-auto rounded-md">
-      {detailCourse?.map((data) => (
-        <>
-          <div className="mb-2">
-            <Breadcrumbs aria-label="breadcrumb">
-              <Typography color="text.h1">
-                <a href="/">Trang chủ</a>
-              </Typography>
-              <Typography color="text.h1">
-                <a href="/course">Khoá học</a>
-              </Typography>
-              <Typography color="text.primary">
-                <div className="font-semibold">{data.name}</div>
-              </Typography>
-            </Breadcrumbs>
-          </div>
-          <div className="w-[320px] lg:w-[1240px] lg:px-8 lg:py-4">
-       
-              <img alt="STEDU" src={data.image} className=" w-full h-full rounded-lg " />
-        
-         <div className="bg-white px-4 shadow-lg rounded-lg py-2">
-         <div>
-              <h1 className="text-lg lg:text-3xl font-semibold text-blue-800 my-2">
-                {" "}
-                {data.name}
-              </h1>
-              <span className="flex ">
-                Gia sư:{" "}
-                <h2 className="font-medium ml-2 text-blue-800">
-                  {" "}
-                  {data.teacherName}
-                </h2>
-              </span>
-              {/* <span>Lượt đăng kí: 200</span> */}
-              <p>
-                Thời gian học: {data.duration}{" "}
-                {data.durationUnit === "MONTH" ? "tháng" : "tuần"}
-              </p>
-              <div className="flex justify-between items-center border-t py-2 mt-2">
-                {" "}
-                <div className="text-red-700 font-semibold">
-                  Giá:
-                  <br className="hidden md:inline" />{" "}
-                  {numeral(data.price).format("0,0")} VNĐ
+      {isLoading === true ? (
+        <div className="grid justify-items-center">
+          {" "}
+          <CircularProgress />
+        </div>
+      ) : (
+        detailCourse?.map((data) => (
+          <>
+            <div className="mb-2">
+              <Breadcrumbs aria-label="breadcrumb">
+                <Typography color="text.h1">
+                  <a href="/">Trang chủ</a>
+                </Typography>
+                <Typography color="text.h1">
+                  <a href="/course">Khoá học</a>
+                </Typography>
+                <Typography color="text.primary">
+                  <div className="font-semibold">{data.name}</div>
+                </Typography>
+              </Breadcrumbs>
+            </div>
+
+            <div className="w-[320px] lg:w-[1240px] lg:px-8 lg:py-4">
+              <img
+                alt="STEDU"
+                src={data.image}
+                className=" w-full h-full rounded-lg "
+              />
+
+              <div className="bg-white px-4 shadow-lg rounded-lg py-2 mt-2">
+                <div>
+                  <h1 className="text-lg lg:text-3xl font-semibold text-blue-800 my-2">
+                    {" "}
+                    {data.name}
+                  </h1>
+                  <span className="flex ">
+                    Gia sư:{" "}
+                    <h2 className="font-medium ml-2 text-blue-800">
+                      {" "}
+                      {data.teacherName}
+                    </h2>
+                  </span>
+                  {/* <span>Lượt đăng kí: 200</span> */}
+                  <p>
+                    Thời gian học: {data.duration}{" "}
+                    {data.durationUnit === "MONTH" ? "tháng" : "tuần"}
+                  </p>
+                  <div className="flex justify-between items-center border-t py-2 mt-2">
+                    {" "}
+                    <div className="text-red-700 font-semibold">
+                      Giá:
+                      <Chip
+                        label={`  ${numeral(data.price).format("0,0")} VNĐ`}
+                        color="error"
+                        className="ml-2"
+                      />
+                    </div>
+                    {token ? (
+                      jwtDecode(token).role === "STUDENT" &&
+                      !location.pathname.includes("/my-course") ? (
+                        <button
+                          className="bg-[#F8E000] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold "
+                          type="button"
+                          onClick={handleAddToCart}
+                        >
+                          Thêm vào giỏ hàng
+                        </button>
+                      ) : jwtDecode(token).role === "STUDENT" &&
+                        status === "NEW" ? (
+                        <button
+                          className="bg-[#FEF9E1] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold hover:bg-[#FDD949]"
+                          onClick={() =>
+                            handleUpdateStatusCourseDetail("STARTED")
+                          }
+                        >
+                          Bắt đầu học
+                        </button>
+                      ) : jwtDecode(token).role === "STUDENT" &&
+                        status === "FINISHED" ? (
+                        <Chip label="Đã học" color="success" />
+                      ) : jwtDecode(token).role === "STUDENT" ? (
+                        <button
+                          className="bg-[#FFEBEB] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold hover:bg-[#F1645F]"
+                          onClick={() =>
+                            handleUpdateStatusCourseDetail("FINISHED")
+                          }
+                        >
+                          Hoàn thành
+                        </button>
+                      ) : null
+                    ) : (
+                      <button
+                        className="bg-[#F8E000] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold"
+                        type="button"
+                        onClick={handleAddToCart}
+                      >
+                        Thêm vào giỏ hàng
+                      </button>
+                    )}
+                  </div>
                 </div>
-                {token ? (
-                  jwtDecode(token).role === "STUDENT" &&
-                  !location.pathname.includes("/my-course") ? (
-                    <button
-                      className="bg-[#F8E000] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold "
-                      type="button"
-                      onClick={handleAddToCart}
-                    >
-                      Thêm vào giỏ hàng
-                    </button>
-                  ) :  jwtDecode(token).role === "STUDENT" && status === "NEW" ? (
-                    <button
-                      className="bg-[#FEF9E1] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold hover:bg-[#FDD949]"
-                      onClick={() => handleUpdateStatusCourseDetail("STARTED")}
-                    >
-                      Bắt đầu học
-                    </button>
-                  ) :  jwtDecode(token).role === "STUDENT" && status === "FINISHED" ? (
-                    <Chip label="Đã học" color="success" />
-                  ) : jwtDecode(token).role === 'STUDENT' ? (
-                    <button
-                      className="bg-[#FFEBEB] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold hover:bg-[#F1645F]"
-                      onClick={() => handleUpdateStatusCourseDetail("FINISHED")}
-                    >
-                      Hoàn thành
-                    </button>
-                  ): null
-                ) : (
+                <div
+                  className="leading-loose text-justify text-base"
+                  dangerouslySetInnerHTML={{ __html: data.description }}
+                />
+              </div>
+            </div>
+
+            <div className="border-t mt-4 px-8">
+              <CommentList courseId={idCourse} />
+            </div>
+            {token &&
+            status === "FINISHED" &&
+            jwtDecode(token).role === "STUDENT" ? (
+              <div className="grid grid-rows-1 mt-8 px-8">
+                <div className="font-semibold">Mời bạn đánh giá khoá học</div>
+                <Rating
+                  value={point}
+                  onChange={(event, newValue) => {
+                    setPoint(newValue);
+                  }}
+                />
+
+                <TextField
+                  multiline
+                  maxRows={4}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Mời bạn nhập đánh giá"
+                  rows={4}
+                />
+
+                <div className="grid lg:grid-cols-7 grid-cols-5">
                   <button
-                    className="bg-[#F8E000] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold"
-                    type="button"
-                    onClick={handleAddToCart}
+                    className="ml-2 bg-[#F8E000] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold "
+                    onClick={handleComment}
                   >
-                    Thêm vào giỏ hàng
+                    Gửi
                   </button>
-                )}
+                </div>
               </div>
-            </div>
-            <div
-            className="leading-loose text-justify"
-            dangerouslySetInnerHTML={{ __html: data.description }}
-          />
-          </div>
-          </div>
-
-      
-          <div className="border-t mt-4 px-8">
-            <CommentList courseId={idCourse} />
-          </div>
-          {token && status === "FINISHED" && jwtDecode(token).role === "STUDENT" ? (
-            <div className="grid grid-rows-1 mt-8 px-8">
-              <div className="font-semibold">Mời bạn đánh giá khoá học</div>
-              <Rating
-                value={point}
-                onChange={(event, newValue) => {
-                  setPoint(newValue);
-                }}
-              />
-
-              <TextField
-                multiline
-                maxRows={4}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Mời bạn nhập đánh giá"
-                rows={4}
-              />
-
-              <div className="grid lg:grid-cols-7 grid-cols-5">
-                <button
-                  className="ml-2 bg-[#F8E000] py-1 px-2 md:py-2 md:px-4 rounded-lg text-[0.5rem] md:text-sm font-semibold "
-                  onClick={handleComment}
-                >
-                  Gửi
-                </button>
-              </div>
-            </div>
-          ) : null}
-        </>
-      ))}
+            ) : null}
+          </>
+        ))
+      )}
     </div>
   );
 }

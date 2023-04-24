@@ -23,13 +23,11 @@ function About(props) {
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              STEDU ra đời với sứ mệnh trở thành cầu nối giữa các sinh viên giỏi
-              và các sinh viên cần bổ trợ kiến thức. Tạo môi trường và công cụ
-              giúp các bạn có trải nghiệm học thông minh, hiệu quả, tiện lợi, để
-              đạt những mục tiêu như kì vọng. Tạo điều kiện, cơ hội việc làm cho
-              các bạn sinh viên thoả mãn đam mê giảng dạy và kiếm thêm thu nhập.
-              Làm cho việc dạy cũng như học trở nên dễ dàng và thú vị với tất cả
-              sinh viên.
+              STEDU là đơn vị trực thuộc công ty TNHH TTA – là một nền tảng kết
+              nối trực tuyến giữa sinh viên giỏi muốn trải nghiệm giảng dạy và
+              sinh viên yếu kém có nhu cầu học kèm. Sinh viên có thể chủ động
+              lựa chọn những gì muốn học, khám phá các khóa học chuyên sâu giúp
+              họ vượt qua áp lực để đạt mục tiêu học tập, công việc.
               {/* Sinh viên có thể chủ động lựa chọn những gì muốn học, khám phá các khóa
               học chuyên sâu giúp họ vượt qua áp lực để đạt mục tiêu học tập,
               công việc. STEDU mang tới sự trải nghiệm mới, giúp việc học trở

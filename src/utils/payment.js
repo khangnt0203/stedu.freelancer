@@ -18,7 +18,7 @@ export const PaymentAPI = {
     return axiosHelper.get(url);
   },
   updateFeeConfig: (percent) => {
-    const url = `/configs/fee?percent=${percent}`;
+    const url = `/configs/transaction/fee?percent=${percent}`;
     return axiosHelper.post(url)
   },
   updateDiscountConfig: (percent) => {

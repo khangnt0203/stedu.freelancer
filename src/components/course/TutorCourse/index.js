@@ -35,10 +35,11 @@ function TutorCourse(props) {
     { id: "public", label: "Chức năng", align: "left" },
   ];
   const [listData, setListData] = useState();
+  const [oldImage, setOldImage] = useState();
   useEffect(() => {
     const getListCourseByTeacherId = async () => {
-      const response = await CourseAPI.getListCourseByTeacherId(id, 50, 1);
-      setListData(response.data);
+      const response = await CourseAPI.getListCourseByTeacherId(id, 10, 1);
+      setListData(response.data)
     };
     getListCourseByTeacherId();
   }, [openDelete,id]);

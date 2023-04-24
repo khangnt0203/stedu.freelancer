@@ -90,7 +90,7 @@ function MyProfile(props) {
       }
     };
     getListRequest();
-  }, [ page]);
+  }, [page]);
 
   const [imageAvt, setImageAvt] = useState();
   const [imagePreview, setImagePreview] = useState();
@@ -116,7 +116,7 @@ function MyProfile(props) {
     try {
       setIsDisable(false);
       if (isImageChange === true) {
-        await CourseAPI.deleteImage(avatar)
+        await CourseAPI.deleteImage(avatar);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const dataImage = new FormData();
         dataImage.append("file", imageAvt);
@@ -190,8 +190,10 @@ function MyProfile(props) {
                       aria-label="lab API tabs example"
                     >
                       <Tab label="Thông tin cá nhân" value="1" />
-                      {role !== "ADMIN" ? (
+                      {role === "STUDENT" ? (
                         <Tab label="Đơn hàng của tôi" value="2" />
+                      ) : role === "TEACHER" ? (
+                        <Tab label="Ví của tôi" value="2" />
                       ) : null}
                     </TabList>
                   </Box>
@@ -214,6 +216,7 @@ function MyProfile(props) {
                             {" "}
                             <div className="row-span-1">CMND/CCCD:</div>
                             <div className="row-span-1">Thẻ sinh viên:</div>
+                            <div className="row-span-1">Bảng điểm:</div>
                           </>
                         ) : null}
                       </div>
@@ -244,6 +247,10 @@ function MyProfile(props) {
                             />
                             <img
                               src={a.studentId}
+                              className=" w-48 h-16 row-span-1"
+                            />
+                            <img
+                              src={a.scoreReport}
                               className=" w-48 h-16 row-span-1"
                             />
                           </>
@@ -283,14 +290,18 @@ function MyProfile(props) {
                     </div>
                   </TabPanel>
                   <TabPanel value="2">
-                    {/* Số dư ví:{" "}
-                    <div className="inline items-center  text-lg">
-                      <Chip
-                        label={`${numeral(a.balance).format("0,0")} VNĐ`}
-                        color="error"
-                        style={{ fontSize: "1.5rem", height: "3rem" }}
-                      />
-                    </div> */}
+                    {role === "TEACHER" ? (
+                      <div>
+                        Số dư ví:{" "}
+                        <div className="inline items-center  text-base lg:text-lg ml-2">
+                          <Chip
+                            label={`${numeral(a.balance).format("0,0")} VNĐ`}
+                            color="error"
+                            style={{ fontSize: "1.5rem", height: "3rem" }}
+                          />
+                        </div>
+                      </div>
+                    ) : null}
                     {role === "STUDENT" ? (
                       <>
                         {" "}
@@ -320,7 +331,11 @@ function MyProfile(props) {
                                 <TableRow key={row.id}>
                                   <TableCell>{index + 1}</TableCell>
                                   <TableCell>
-                                   <Chip label= {`${numeral(row.amount).format("0,0")} VNĐ`}/>
+                                    <Chip
+                                      label={`${numeral(row.amount).format(
+                                        "0,0"
+                                      )} VNĐ`}
+                                    />
                                   </TableCell>
                                   <TableCell>{row.note}</TableCell>
                                   <TableCell>

@@ -1,4 +1,4 @@
-import { Pagination } from "@mui/material";
+import { Box, CircularProgress, Pagination } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
@@ -16,8 +16,10 @@ function ListCourse({ filterSubject, filterClassName }) {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [subject, setSubject] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const getListCourse = async () => {
+      setIsLoading(true);
       try {
         if (typeof filterSubject === "undefined" || filterSubject === "all") {
           filterSubject = "";
@@ -25,6 +27,16 @@ function ListCourse({ filterSubject, filterClassName }) {
         if (typeof filterClassName === "undefined" || filterClassName === " ") {
           filterClassName = "";
         }
+        // if (typeof filterSubject !== "undefined" || filterSubject !== "all" || filterSubject !== "") {
+        //  console.log('môn',filterSubject)
+        // }
+        if (filterClassName !== "" || filterSubject !== "") {
+          setPage(1);
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+        // if (filterSubject !== "") {
+        //   setPage(1);
+        // }
         const response = await CourseAPI.getListCourse(
           filterClassName,
           filterSubject,
@@ -33,7 +45,6 @@ function ListCourse({ filterSubject, filterClassName }) {
         );
         setTotalPage(response.total);
         setListCourse(response.data);
-        setPage(response.page);
 
         if (filterSubject === "") {
           setSubject("Tất cả");
@@ -44,9 +55,10 @@ function ListCourse({ filterSubject, filterClassName }) {
       } catch (error) {
         console.log("Error:", error);
       }
+      setIsLoading(false);
     };
     getListCourse();
-  }, [filterSubject, filterClassName]);
+  }, [filterSubject, filterClassName, page]);
 
   return (
     <div className="w-full">
@@ -54,8 +66,14 @@ function ListCourse({ filterSubject, filterClassName }) {
         Khoá học liên quan:{" "}
         {filterClassName === "" || typeof filterClassName === "undefined"
           ? subject
-          : subject + "-" +filterClassName}
+          : subject + "-" + filterClassName}
       </div>
+      {isLoading === true ? (
+        <div className="grid justify-items-center">
+          {" "}
+          <CircularProgress />
+        </div>
+      ) : null}
       <div className="grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 ">
         {listCourse?.length !== 0 ? (
           listCourse?.map((a) => (
@@ -106,7 +124,9 @@ function ListCourse({ filterSubject, filterClassName }) {
             </Card>
           ))
         ) : (
-          <div className="col-span-3 text-center mt-8">Môn học này chưa có lớp! Vui lòng quay lại sau</div>
+          <div className="col-span-3 text-center mt-8">
+            Môn học này chưa có lớp! Vui lòng quay lại sau
+          </div>
         )}
       </div>
 

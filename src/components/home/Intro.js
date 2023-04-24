@@ -17,28 +17,28 @@ function Intro(props) {
   // tạo danh sách carousel thủ công và tĩnh
   const images = [
     {
-      title:'Trường quân đội lên phương án tổ chức kỳ thi riêng ',
+      title:'Đại học Văn Lang: Hồi trống vang, Văn Lang chuyển mình',
       imgPath:
-        "https://i1-vnexpress.vnecdn.net/2023/04/06/Cuc-Nha-truong-JPEG-9602-1680775203.jpg?w=1020&h=0&q=100&dpr=1&fit=crop&s=hAuEMDD-Xv1hs5xp5bsBOg",
-        link:'https://vnexpress.net/truong-quan-doi-len-phuong-an-to-chuc-ky-thi-rieng-4590362.html'
+        "https://i.doanhnhansaigon.vn/2022/12/22/-3760-1671701006.jpg",
+        link:'https://doanhnhansaigon.vn/giao-duc/dai-hoc-van-lang-hoi-trong-vang-van-lang-chuyen-minh-1115055.html?fbclid=IwAR1jqyOPAQGBxf-cyL7-oK98h2ZfBLKrvh473dRsASjiz0-PgAq6S34kwfw'
     },
     {
-      title:'Học viện Ngân hàng mở bốn chương trình mới',
+      title:'Trường ĐH Văn Lang ghi dấu ấn tại Hội nghị Triển lãm Giáo dục Quốc tế APAIE',
       imgPath:
-        "https://i1-vnexpress.vnecdn.net/2023/03/28/HV-Ngan-hang-8248-1679978243.jpg?w=1020&h=0&q=100&dpr=1&fit=crop&s=vbYtf-OClZAMnJyT8KhnVg",
-        link:'https://vnexpress.net/hoc-vien-ngan-hang-mo-bon-chuong-trinh-moi-4586383.html'
+        "https://images2.thanhnien.com.vn/thumb_w/640/528068263637045248/2023/3/20/img8588-16792839748111406203838.jpg",
+        link:'https://thanhnien.vn/truong-dh-van-lang-ghi-dau-an-tai-hoi-nghi-trien-lam-giao-duc-quoc-te-apaie-185230320105222132.htm?fbclid=IwAR05nvxpBcu2Sf24m1slTWPcYeM-T7jTymG5GZjI6kmxWSjGJymyzsSLDk0'
     },
     {
-      title:'9x chia sẻ chuyện nghề chăm sóc học viên trực tuyến',
+      title:'Giới trẻ hào hứng bắt đầu hành trình đại học với Open Day tại Trường Đại học Văn Lang',
       imgPath:
-        "https://i1-vnexpress.vnecdn.net/2023/03/17/image001-7398-1679040957.jpg?w=1020&h=0&q=100&dpr=1&fit=crop&s=J6n90EG7mYaPfge-wXhlbg",
-        link:'https://vnexpress.net/9x-chia-se-chuyen-nghe-cham-soc-hoc-vien-truc-tuyen-4582407.html'
+        "https://kenh14cdn.com/thumb_w/800/pr/2023/photo1679457482312-1679457483434186343346-63815083378977.jpg",
+        link:'https://kenh14.vn/gioi-tre-hao-hung-bat-dau-hanh-trinh-dai-hoc-voi-open-day-tai-truong-dai-hoc-van-lang-20230322120258825.chn'
     },
     {
-      title:'Nữ giảng viên nâng cao nghiệp vụ nhờ hỗ trợ học viên online',
+      title:'Trường Đại học Văn Lang chuyển mình với định vị đại học Việt Nam chuẩn quốc tế',
       imgPath:
-        "https://i1-vnexpress.vnecdn.net/2023/01/10/mentor-1490-1673319739.jpg?w=1020&h=0&q=100&dpr=1&fit=crop&s=NtIYdr6aGfkw9SrD9tVNTA",
-        link:'https://vnexpress.net/nu-giang-vien-nang-cao-nghiep-vu-nho-ho-tro-hoc-vien-online-4557113.html'
+        "https://images.hcmcpv.org.vn/res/news/2022/12/22-12-2022-truong-dai-hoc-van-lang-chuyen-minh-voi-dinh-vi-dai-hoc-viet-nam-chuan-quoc-te-7ED51EDC-details.jpg?vs=22122022072338",
+        link:'https://www.hcmcpv.org.vn/tin-tuc/truong-dai-hoc-van-lang-chuyen-minh-voi-dinh-vi-dai-hoc-viet-nam-chuan-quoc-te-1491902914?fbclid=IwAR0IiFF-D0fbh1XGVJeYUII4OfXax85m2V9scAjo03-D2j5iPQtw3UsVfIQ'
     },
   ];
   const theme = useTheme();
@@ -59,7 +59,7 @@ function Intro(props) {
 
   return (
     <div
-      className="grid grid-cols-3 gap-4 md:mt-20 mt-8 px-4"
+      className="grid grid-cols-3 gap-4 md:mt-20 mt-8 lg:px-32 px-4 lg:py-16"
       data-aos="fade-up"
       data-aos-delay="600"
     >
@@ -77,12 +77,13 @@ function Intro(props) {
               <div key={step.label}>
                 {Math.abs(activeStep - index) <= 2 ? (
                   <Box
+                  onClick={()=>window.open(step.link)}
                     component="img"
                     sx={{
                       display: "block",
                       minHeight: 120,
                       maxHeight: 500,
-                      width: "100%",
+                    
                   borderRadius:'20px'
                     }}
                     src={step.imgPath}
@@ -94,7 +95,7 @@ function Intro(props) {
               </div>
             ))}
           </AutoPlaySwipeableViews>
-          <MobileStepper
+          {/* <MobileStepper
             steps={maxSteps}
             position="static"
             activeStep={activeStep}
@@ -124,7 +125,7 @@ function Intro(props) {
                 )}
               </Button>
             }
-          />
+          /> */}
         </Box>
       </div>
       <div className="col-span-1">
@@ -141,12 +142,7 @@ function Intro(props) {
           >
             <img src={Intro2} className="rounded-xl shadow-inner"/>
           </div>
-          <div
-            onClick={() => window.location.assign("/sign-up-tutor")}
-            className="lg:hidden cursor-pointer hover:scale-90 ease-in-out duration-200 hover:shadow-2xl" 
-          >
-            <img src={Intro2} className="rounded-xl shadow-inner"/>
-          </div>
+        
         </div>
       </div>
     </div>

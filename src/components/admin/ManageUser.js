@@ -69,24 +69,30 @@ function ManageUser(props) {
     getUserById();
   }, [userId]);
   const handleSubmit = async (status) => {
-   const params =  {
-      "id":dataUser.id,
-      "fullName": dataUser.fullName,
-      "email": dataUser.email,
-      "phone": dataUser.phone,
-      "avatar": dataUser.avatar,
-      "personalId": dataUser.personalId,
-      "studentId": dataUser.studentId,
-      "status": status,
-    }
+    const params = {
+      id: dataUser.id,
+      fullName: dataUser.fullName,
+      email: dataUser.email,
+      phone: dataUser.phone,
+      avatar: dataUser.avatar,
+      personalId: dataUser.personalId,
+      studentId: dataUser.studentId,
+      scoreReport: dataUser.scoreReport,
+      status: status,
+    };
     try {
-      await UserAPI.editUser(params)
-      Swal.fire("Hoàn tất",'','success')
+      if (status === "DELETED") {
+        await CourseAPI.deleteImage(dataUser.personalId);
+        await CourseAPI.deleteImage(dataUser.studentId);
+        await CourseAPI.deleteImage(dataUser.scoreReport);
+      }
+      await UserAPI.editUser(params);
+      Swal.fire("Hoàn tất", "", "success");
     } catch (error) {
-      Swal.fire("Lỗi!", "Vui lòng thử lại sau", "error")
-      console.log("Error:", error)
+      Swal.fire("Lỗi!", "Vui lòng thử lại sau", "error");
+      console.log("Error:", error);
     }
-    setOpen(false)
+    setOpen(false);
   };
   const handleDelete = async () => {};
   return (
@@ -170,15 +176,26 @@ function ManageUser(props) {
           <DialogContentText>
             Thẻ Sinh viên: <img src={dataUser?.studentId} />
           </DialogContentText>
+          <DialogContentText>
+            Bảng điểm: <img src={dataUser?.scoreReport} />
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="outlined">
             Huỷ
           </Button>
-          <Button onClick={()=>handleSubmit('DELETED')} variant="outlined" color="error">
+          <Button
+            onClick={() => handleSubmit("DELETED")}
+            variant="outlined"
+            color="error"
+          >
             Từ chối
           </Button>
-          <Button onClick={()=>handleSubmit("ACTIVE")} variant="contained" color="success">
+          <Button
+            onClick={() => handleSubmit("ACTIVE")}
+            variant="contained"
+            color="success"
+          >
             Duyệt
           </Button>
         </DialogActions>

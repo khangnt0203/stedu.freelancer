@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Dialog,
   Divider,
   IconButton,
@@ -30,6 +31,7 @@ function ShoppingCart(props) {
   const [orderId, setOrderId] = useState();
   const [note, setNote] = useState("");
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -39,6 +41,7 @@ function ShoppingCart(props) {
   };
   useEffect(() => {
     const getMyCart = async () => {
+      setIsLoading(true)
       try {
         const response = await CartAPI.getCart();
         setOrderItems(response.orderItems);
@@ -47,6 +50,7 @@ function ShoppingCart(props) {
       } catch (error) {
         console.log("Error:", error);
       }
+      setIsLoading(false)
     };
     getMyCart();
   }, [isRemove, isComplete]);
@@ -84,7 +88,12 @@ function ShoppingCart(props) {
           <h1 className="font-bold flex justify-center text-xs md:text-base text-[#34a23d] border-b-2 border-[#34a23d]">
             CÁC KHOÁ HỌC ĐÃ CHỌN
           </h1>
-
+          {isLoading === true ? (
+        <div className="grid justify-items-center">
+          {" "}
+          <CircularProgress />
+        </div>
+      ) : null}
           <div>
             {orderItems?.length !== 0 ? (
               orderItems?.map((data) => (
@@ -201,7 +210,7 @@ function ShoppingCart(props) {
 
         <div className="max-w-[1240px] mx-auto mt-8 px-4">
           <div className="flex justify-between items-center">
-            Vui lòng chuyển khoản đến Số tài khoản: HO ANH THU{" "}
+            Vui lòng chuyển khoản đến Số tài khoản: HO LE ANH THU{" "}
             <img src={Bank} className="w-24" />
           </div>
           <div className="font-bold px-2 py-2 bg-slate-100 flex justify-between items-center rounded-lg text-lg">

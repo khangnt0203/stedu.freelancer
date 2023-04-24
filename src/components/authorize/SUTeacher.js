@@ -44,6 +44,10 @@ function SUTeacher(props) {
       const dataStudent = new FormData();
       dataStudent.append("file", imageStudentId);
       const res2 = await CourseAPI.uploadImage(dataStudent);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const dataTrans = new FormData();
+      dataTrans.append("file", imageTranscript);
+      const res3 = await CourseAPI.uploadImage(dataTrans);
       // if (typeof (imageStudentId) !== "undefined") {
       //   const dataStudent = new FormData();
       //   dataStudent.append("file", imageStudentId);
@@ -59,6 +63,7 @@ function SUTeacher(props) {
         email: email,
         personalId: res1.data.data.url,
         studentId:  res2.data.data.url ,
+        scoreReport: res3.data.data.url,
         // usernameMirrorFly: userRegistration.data.username,
         // passwordMirrorFly: userRegistration.data.password,
         role: "TEACHER",
@@ -91,6 +96,8 @@ function SUTeacher(props) {
   };
   const [imageId, setImageId] = useState();
   const [imageStudentId, setImageStudentId] = useState();
+  const [imageTranscript, setImageTranscript] = useState();
+  const [imagePreviewTrans, setImageReviewTrans] = useState();
   const [imagePreviewId, setImagePreviewId] = useState();
   const [imagePreviewStu, setImagePreviewStu] = useState();
   const [username, setUsername] = useState();
@@ -111,8 +118,12 @@ function SUTeacher(props) {
     setImageStudentId(e.target.files[0]);
     setImagePreviewStu(URL.createObjectURL(e.target.files[0]));
   };
+  const handleImageTrans = async (e) => {
+    setImageTranscript(e.target.files[0]);
+    setImageReviewTrans(URL.createObjectURL(e.target.files[0]));
+  };
   return (
-    <div className="max-w-[1240px] mx-auto px-2 py-2">
+    <div className="max-w-[1240px] mx-auto px-2 py-2 bg-white">
       <div className="grid grid-cols-3 ">
         <div className="lg:col-span-2 col-span-3  my-auto">
           <h1 className="text-lg md:text-xl font-bold grid justify-items-center">
@@ -172,6 +183,15 @@ function SUTeacher(props) {
                 />
                 {imageStudentId ? <img src={imagePreviewStu} /> : null}
               </div>
+              <div>
+                <h1 className="font-semibold">Tải ảnh Bảng điểm</h1>
+                <input
+                  type="file"
+                  name="transcript"
+                  onChange={handleImageTrans}
+                />
+                {imageTranscript ? <img src={imagePreviewTrans} /> : null}
+              </div>
               <FormControlLabel
                 label={
                   <div>
@@ -230,7 +250,7 @@ function SUTeacher(props) {
               <p className="font-semibold italic ml-1">
                 phí kết nối cho Trung tâm là
               </p>{" "}
-              <p className="font-semibold text-red-700 ml-1">15%</p>.
+              <p className="font-semibold text-red-700 ml-1">25%</p>.
             </div>
           </Typography>{" "}
           <Typography>
